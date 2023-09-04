@@ -279,9 +279,11 @@ void setup()
                             // after the user touches the sensor.
 #define DEBUG_LOOP_COUNT 51 // Number of times through the loop before
                             // printing out the readings.
+#define DEBUG_CLEAR_TIME 30000 // Number of milliseconds afterwhich state 
+                            // should be reset.
 void loop() // Magic function that is called over and over again.
 {
-  static int touchTime = millis() - 30000;
+  static int touchTime = millis() - DEBUG_CLEAR_TIME; // Start in a "clearable" state.
   int qt1 = 0;
   qt1 = qt_1.measure();
 
@@ -493,7 +495,7 @@ void checkDebug(int touchTime)
   if (millis() - touchTime > TOUCH_TIME_DEBOUNCE)
   {
     bool resetMe = false;
-    if (firstTouch == 0 || millis() - firstTouch > 30000)
+    if (firstTouch == 0 || millis() - firstTouch > DEBUG_CLEAR_TIME)
     {
       resetMe = true;
       firstTouch = millis();
