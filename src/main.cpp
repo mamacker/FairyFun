@@ -1,5 +1,7 @@
 #include <Arduino.h>
-#include "Adafruit_FreeTouch.h"
+#include "Adafruit_FreeTouch.h"  // If you don't know about Adafruit
+                                 // checkout https://adafruit.com
+                                 // it will be your new IOT addiction.
 
 // Author: Matthew Amacker
 // Date: 2021-09-25
@@ -219,6 +221,9 @@ void setup()
   // on and off - this is how the CPU controls the pins and other devices
   // linked to the pins (resitors for example).
   pinMode(NOODLE_PIN, OUTPUT);
+  // You might wonder why the LED pin is called "NOODLE" - check out:
+  // https://www.adafruit.com/product/5503
+  // this is what my fairy boxes use.
   digitalWrite(NOODLE_PIN, 0); // Always good habit to set state. Sometimes
                                // the board will boot with the pin in a
                                // weird state.  So, it is good to set it
