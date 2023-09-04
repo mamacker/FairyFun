@@ -486,8 +486,6 @@ void checkDebug(int touchTime)
   static unsigned long firstTouch = 0;
   static int debugCheckCt = 0;
 
-  return;
-
   // This check ensures we only register a touch every 300ms.
   // Sometimes we return so fast, a finger will still be present
   // between touches - this ensures the user has pulled away between
