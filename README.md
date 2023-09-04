@@ -13,6 +13,8 @@ Also, note that detecting fingers "near" works through some materials, like wood
 
 This uses a little "antenna" off of pin A0, where the antenna can be soldered to anything conductive to create a "touch" or "nearness detector" area. I've done it with jewelry boxes, and nickle painted 3D prints.
 
+For an easy to use conductive paint for your 3D prints, check out [Bare Conductive](https://www.bareconductive.com/) or [MG Chemicals - 841AR Super Shield Nickel Conductive Paint](https://www.amazon.com/MG-Chemicals-Conductive-Coating-Aerosol/dp/B01N3AWGNX).
+
 ## Why?
 
 This is a fun project for those studying computer science because it combines a number of different concepts:
