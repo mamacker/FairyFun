@@ -511,6 +511,8 @@ void checkDebug(int touchTime)
       Serial.println("Debugging on.");
       debugging = true;
       // Secret message here. Its between two debug thresholds.
+      // Provides one more layer of mystery - or perhaps you store
+      // the secret key for BITCOIN here. ;)
       if (debugCheckCt > 10 && debugCheckCt < DEBUG_CHECK_THRESHOLD_MAX)
       {
         Serial.println("Secret message output here.");
