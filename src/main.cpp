@@ -166,7 +166,7 @@ int base_ct = 0;
 // avg function.
 int qt_base = 725;
 int qt_Threshold = qt_base + SPREAD;
-void lightAtStep();
+void lightAtStep(bool reset);
 void lightAtNear(int measurement);
 
 // This is the function that averages in a new base reading.
@@ -275,12 +275,17 @@ void setup()
 // 
 #define BASELINE_TIME 5000 // Number of milliseconds to take baseline readings
                            // before starting to do anything.
-#define LIGHT_ON_TIME 30000 // Number of milliseconds to keep the light on
-                            // after the user touches the sensor.
+#define LIGHT_ON_TIME 40000 // Number of milliseconds to keep the light on
+                            // after the user touches the sensor.  Note, light
+                            // throb time is "in" this.
+#define LIGHT_THROB_TIME 10000 // Number of milliseconds to keep the throbbing
+                            // after the on-light period.
 #define DEBUG_LOOP_COUNT 51 // Number of times through the loop before
                             // printing out the readings.
 #define DEBUG_CLEAR_TIME 30000 // Number of milliseconds afterwhich state 
                             // should be reset.
+#define MAXIMUM_BRIGHTNESS 255 // The LEDs can be *very* bright.  This allows
+                               // some amount of max control.
 void loop() // Magic function that is called over and over again.
 {
   static int touchTime = millis() - DEBUG_CLEAR_TIME; // Start in a "clearable" state.
@@ -321,13 +326,24 @@ void loop() // Magic function that is called over and over again.
   }
 
   // Assuming a touch occurred in the last LIGHT_ON_TIME milliseconds...
-  // This function causes the light to pulse for 30 seconds after the
-  // user touches the sensor.
+  // If we are the main LIGHT_ON_TIME interval the light will either be
+  // full on, or in the last LIGHT_THROB_TIME interval it will throb.
   // Note - if no touch has occurred in the last LIGHT_ON_TIME milliseconds
   // then we check to see if the user is NEAR and light based on that nearness.
   if (millis() - touchTime < LIGHT_ON_TIME)
   {
-    lightAtStep();
+    // Check to see if we are in the last LIGHT_THROB_TIME of the 
+    // touch.
+    if (millis() - touchTime > LIGHT_ON_TIME - LIGHT_THROB_TIME) {
+      // This is the last part of the "ON" time.  It lets the user
+      // know its about to shut off.
+      lightAtStep(false);
+    } else {
+      // We just turn it on if we are in the "main" "on" portion of the light
+      // touch cycle.
+      analogWrite(NOODLE_PIN, MAXIMUM_BRIGHTNESS);
+      lightAtStep(true);
+    }
   }
   else
   {
@@ -439,7 +455,7 @@ void lightAtNear(int measurement)
 // it will reverse direction.
 #define NUM_LIGHT_STEPS 150
 #define MINUMUM_BRIGHTNESS 10
-void lightAtStep()
+void lightAtStep(bool reset)
 {
   static int steps = 0; // Static variables exist between function calls
                         // and are initialized once.  This is a good
@@ -452,6 +468,13 @@ void lightAtStep()
                         // accidentally change a global variable
                         // and not know where it was changed.
   static bool direction = 1;
+
+  // This may be a call to simply restart the throb.
+  if (reset) {
+    direction = 1;
+    steps = 0;
+    return;
+  }
 
   if (steps >= NUM_LIGHT_STEPS)
   {
