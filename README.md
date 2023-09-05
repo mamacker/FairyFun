@@ -7,7 +7,7 @@ Based on the Seeed Studio XIAO SAMD21 or the Adafruit QT Py - SAMD21 Dev Board w
 
 The touch capacitance is variable due to a variety of factors, including the size of the touch pad, the material, the moisture content of the air, etc. To reliably detect the proximity of a finger for the magic effect - we need to "learn" the baseline. This code incorporates that learning using a simple averaging over time.
 
-Also, note that detecting fingers "near" works through some materials, like wood, plastic, and glass. It does not work through metal... unless the metal is incontact with the detector. This provides lots of magical potential.
+Also, note that detecting fingers "near" works through some materials, like wood, plastic, and glass. It does not work through metal... unless the metal is in contact with the detector. This provides lots of magical potential...
 
 ## Hardware
 
